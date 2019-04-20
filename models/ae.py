@@ -77,9 +77,11 @@ class Encoder(nn.Module):
 
         for i, (in_size, out_size) in enumerate(zip(layer_sizes[:-1],
                                                     layer_sizes[1:])):
+            print(i, ": ", in_size, out_size)
             self.MLP.add_module(
                 name="L{:d}".format(i),
                 module=nn.Linear(in_size, out_size))
+            print("ReLU added @ Encoder")
             self.MLP.add_module(name="A{:d}".format(i),
                                 module=nn.ReLU())
 
@@ -118,11 +120,14 @@ class Decoder(nn.Module):
 
         for i, (in_size, out_size) in enumerate(
                 zip([input_size]+layer_sizes[:-1], layer_sizes)):
+            print(i, ": ", in_size, out_size)
             self.MLP.add_module(
                 name="L{:d}".format(i), module=nn.Linear(in_size, out_size))
             if i+1 < len(layer_sizes):
+                print("ReLU added @ Decoder")
                 self.MLP.add_module(name="A{:d}".format(i), module=nn.ReLU())
             else:
+                print("Sig step")
                 self.MLP.add_module(name="sigmoid", module=nn.Sigmoid())
 
     def forward(self, z, c):

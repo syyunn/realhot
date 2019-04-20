@@ -1,7 +1,6 @@
 import os
 import time
 import torch
-import logging
 import argparse
 import pandas as pd
 import seaborn as sns
@@ -117,7 +116,7 @@ def main(args, ts, logPath):
 
         g = sns.lmplot(
             x='x', y='y', hue='label', data=df.groupby('label').head(100),
-            fit_reg=False, legend=True)
+            fit_reg=False, legend=True, scatter_kws={"s": 20}, markers=".")
 
         g.savefig(os.path.join(
             args.fig_root, str(ts), "E{:d}-Dist.png".format(epoch)),
@@ -131,9 +130,9 @@ if __name__ == '__main__':
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--learning_rate", type=float, default=0.001)
-    parser.add_argument("--encoder_layer_sizes", type=list, default=[784, 256])
-    parser.add_argument("--decoder_layer_sizes", type=list, default=[256, 784])
-    parser.add_argument("--latent_size", type=int, default=1)
+    parser.add_argument("--encoder_layer_sizes", type=list, default=[784, 256, 256])
+    parser.add_argument("--decoder_layer_sizes", type=list, default=[256, 256, 784])
+    parser.add_argument("--latent_size", type=int, default=1024)
     parser.add_argument("--print_every", type=int, default=100)
     parser.add_argument("--fig_root", type=str, default='ae/figs')
     parser.add_argument("--conditional", action='store_true')
