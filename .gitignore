@@ -1,6 +1,5 @@
 __pycache__
 .idea
-trains/ae/data
 trains/ae/figs
-trains/vae/data
 trains/vae/figs
+data
